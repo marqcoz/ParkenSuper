@@ -1,0 +1,104 @@
+{
+  "project_info": {
+    "project_number": "270469578425",
+    "firebase_url": "https://parken-217616.firebaseio.com",
+    "project_id": "parken-217616",
+    "storage_bucket": "parken-217616.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270469578425:android:12dfe324174d9085",
+        "android_client_info": {
+          "package_name": "com.parken.parken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270469578425-9r3tb3c80ooliu8v7sr1jeqtr8dhd7hl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parken.parken",
+            "certificate_hash": "6c89b1b5b4f57a6cbdb5a72b34fd013826a9905b"
+          }
+        },
+        {
+          "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMZ7kTu6AmjiY95AQH1qluGB7x_iRUMhQ"
+        },
+        {
+          "current_key": "AIzaSyDGtZDt3peaf74u1l3iCsVTF0AxEmmiE2I"
+        },
+        {
+          "current_key": "AIzaSyBLcVeELjhNLV-jP_OIXZ0OhijLDcHsv4c"
+        },
+        {
+          "current_key": "AIzaSyATPB05h5miE-Zn9C2r0pw_hhyIgyl84ok"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270469578425:android:1d96b511a1706b09",
+        "android_client_info": {
+          "package_name": "com.parken.parkensuper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMZ7kTu6AmjiY95AQH1qluGB7x_iRUMhQ"
+        },
+        {
+          "current_key": "AIzaSyDGtZDt3peaf74u1l3iCsVTF0AxEmmiE2I"
+        },
+        {
+          "current_key": "AIzaSyBLcVeELjhNLV-jP_OIXZ0OhijLDcHsv4c"
+        },
+        {
+          "current_key": "AIzaSyATPB05h5miE-Zn9C2r0pw_hhyIgyl84ok"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

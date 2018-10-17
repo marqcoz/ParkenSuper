@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f44336</color>
+    <color name="colorPrimaryDark">#34495e</color>
+    <color name="colorAccent">#f44336</color>
+    <color name="greenPass">#00c853</color>
+    <color name="greenLight">#2ecc71</color>
+    <color name="black">#000000</color>
+</resources>

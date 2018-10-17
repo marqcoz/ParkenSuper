@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.parken.parkensuper">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".ParkenActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/SplashTheme">
+
+            <!-- android:launchMode="singleInstance"> -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="screenSize|orientation"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".InformationActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ParkenActivity" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".InformationActivity" />
+        <activity
+            android:name=".RecoverPasswordActivity"
+            android:label="@string/title_activity_recover_password"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PasswordActivity"
+            android:parentActivityName=".EditProfileActivity" />
+        <activity android:name=".VerifyActivity" />
+        <activity
+            android:name=".SesionParkenActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ParkenActivity" />
+        <activity
+            android:name=".ReporteActivity"
+            android:label="Reportes"
+            android:parentActivityName=".ParkenActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AddVehiculoActivity"
+            android:label="@string/title_activity_add_vehiculo"
+            android:parentActivityName=".SesionParkenActivity"
+            android:theme="@style/AppTheme" />
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".GeofenceParkenIntentService" />
+        <!--
+        <service android:name=".GeofenceParkenBookedTransitionsIntentService" />
+
+        <service android:name=".GeofenceParkenSessionIntentService" />
+        -->
+
+        <activity
+            android:name=".ModifyParkenSpaceActivity"
+            android:label="@string/title_activity_modify_parken_space"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ParkenActivity">
+
+        </activity>
+        <activity
+            android:name=".CreateReceiptActivity"
+            android:label="@string/title_activity_create_receipt"
+
+            android:theme="@style/AppTheme">
+
+
+        </activity>
+    </application>
+
+</manifest>
