@@ -11,8 +11,8 @@ public class Jeison {
 
     public static final String YOUR_API_KEY = "AIzaSyDkmiXSeUvTkbXgV7UYpwmhiysqkrjqcZ0";
 
-    //public static final String IP = "192.168.1.163";
-    public static final String IP = "192.168.200.30";
+    //public static final String IP = "192.168.1.68";
+    //public static final String IP = "192.168.200.30";
     //public static final String IP = "192.168.43.236";
     //public static final String IP = "192.168.15.33";
     //public static final String IP = "192.168.15.116";
@@ -21,11 +21,12 @@ public class Jeison {
     //public static final String IP = "100.87.199.16";
     //public static final String IP = "10.100.126.239";
 
-    //public static final String IP = "ec2-user@ec2-18-222-3-176.us-east-2.compute.amazonaws.com";
+    public static final String IP = "3.16.52.71";
 
 
 
-    public static final String PORT = ":3000";
+
+    public static final String PORT = ":3001";
     public static final String URL_BASE = "http://" + IP + PORT;
 
 
