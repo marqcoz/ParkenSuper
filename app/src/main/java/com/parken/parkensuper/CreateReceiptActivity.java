@@ -496,7 +496,7 @@ public class CreateReceiptActivity extends AppCompatActivity {
         //Mostramos los botones de error
         imgAlert.setVisibility(View.VISIBLE);
         textAlert.setVisibility(View.VISIBLE);
-        textAlert.setText("No es posible conectarse con el servidor.\nIntenta de nuevo.");
+        textAlert.setText("Ocurrió un error.\nIntenta de nuevo.");
 
 
     }

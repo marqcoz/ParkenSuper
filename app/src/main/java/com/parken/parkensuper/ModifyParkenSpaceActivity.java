@@ -293,16 +293,19 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
         uiSettings.setIndoorLevelPickerEnabled(false);
         uiSettings.setTiltGesturesEnabled(false);
 
-        if(origin != null && origin.equals("ParkenActivity"))
-            mMap.setOnMarkerClickListener(this);
-
-        // Add a marker in Sydney and move the camera
-        LatLng df = new LatLng(19.432581, -99.133161);
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(df, 10.0f));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(df, 10));
-
         try {
+
             cargarDatos();
+
+            if(origin != null && origin.equals("ParkenActivity")) {
+                mMap.setOnMarkerClickListener(this);
+            }
+
+            // Add a marker in Sydney and move the camera
+            LatLng df = new LatLng(19.432581, -99.133161);
+            //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(df, 10.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(df, 10));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -335,7 +338,6 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
         if(!txtEspacioParken.getText().toString().equals(idEspacioParken)){
             txtEspacioParken.setText(idEspacioParken);
         }
-
 
 
         return false;
@@ -392,8 +394,6 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                         break;
 
                     case "ParkenActivity":
-
-
 
                         obtenerDibujoZonaParken(session.getZonaSupervisor());
                         obtenerMarkersEspaciosParken(session.getZonaSupervisor());

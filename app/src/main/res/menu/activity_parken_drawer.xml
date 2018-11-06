@@ -23,6 +23,11 @@
              android:icon="@drawable/ic_ticket_nav"
              android:title="@string/nav_draw_opc3" />
 
+         <item
+             android:id="@+id/nav_pay_session"
+             android:icon="@drawable/ic_pay_receipt_d"
+             android:title="@string/nav_draw_opc5" />
+
         <item
             android:id="@+id/nav_reports"
             android:icon="@drawable/ic_report"

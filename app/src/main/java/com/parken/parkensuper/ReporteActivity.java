@@ -165,8 +165,8 @@ public class ReporteActivity extends AppCompatActivity {
                                 imgInfo.setVisibility(View.VISIBLE);
                                 txtViewMessageReporte.setVisibility(View.VISIBLE);
                                 aux.setVisibility(View.VISIBLE);
-                                imgInfo.setImageResource(R.drawable.ic_no_receipt);
-                                txtViewMessageReporte.setText("¡Felicidades! \nNo tienes sanciones.");
+                                imgInfo.setImageResource(R.drawable.ic_action_happy);
+                                txtViewMessageReporte.setText("No tienes reportes asignados.");
                             }
 
                         } catch (JSONException e) {

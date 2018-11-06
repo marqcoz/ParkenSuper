@@ -11,8 +11,8 @@ public class Jeison {
 
     public static final String YOUR_API_KEY = "AIzaSyDkmiXSeUvTkbXgV7UYpwmhiysqkrjqcZ0";
 
-    //public static final String IP = "192.168.1.68";
-    //public static final String IP = "192.168.200.30";
+    //public static final String IP = "192.168.1.66";
+    public static final String IP = "192.168.200.42";
     //public static final String IP = "192.168.43.236";
     //public static final String IP = "192.168.15.33";
     //public static final String IP = "192.168.15.116";
@@ -21,7 +21,8 @@ public class Jeison {
     //public static final String IP = "100.87.199.16";
     //public static final String IP = "10.100.126.239";
 
-    public static final String IP = "3.16.52.71";
+    //public static final String IP = "3.16.52.71";
+    //public static final String IP = "www.parkenapp.com";
 
 
 
@@ -44,6 +45,9 @@ public class Jeison {
     public static final String URL_DRIVER_VERYFY_ID = URL_BASE +  "/supervisor/verificarDatos";
     public static final String URL_DRIVER_UPDATE = URL_BASE +  "/supervisor/actualizarDatos";
     public static final String URL_DRIVER_REPORTS = URL_BASE + "/supervisor/obtenerTodosReportes";
+    public static final String URL_VERIFY_SUPER = URL_BASE + "/supervisor/verificarSupervisor";
+    public static final String URL_DRIVER_PAYING_RECEIPT = URL_BASE + "/automovilista/pagarSancion";
+    public static final String URL_DRIVER_GETTING_RECEIPTS_AVAILABLES = URL_BASE + "/supervisor/obtenerEspaciosParkenParaPagarSancion";
     public static final String URL_DRIVER_GETTING_PARKEN_SPACES_AVAILABLES = URL_BASE + "/supervisor/obtenerEspaciosParkenParaSesion";
     public static final String URL_DRIVER_GETTING_PARKEN_SPACES_STATUS = URL_BASE + "/supervisor/estatusEspacioParken";
     public static final String URL_DRIVER_GETTING_PARKEN_ZONE = URL_BASE +  "/obtenerZonasParken";

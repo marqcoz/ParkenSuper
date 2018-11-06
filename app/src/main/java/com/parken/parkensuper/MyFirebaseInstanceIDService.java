@@ -36,7 +36,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         session = new ShPref(ParkenActivity.activityParken);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        FirebaseMessaging.getInstance().subscribeToTopic("automovilista");
+        FirebaseMessaging.getInstance().subscribeToTopic("supervisor");
 
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
@@ -81,6 +81,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                         try {
                             if(response.getString("success").equals("1")){
                                 Log.d(TAG, "Refreshed token: " + token);
+                                session.setToken(token);
                                 return;
 
                             }else{

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center|fill"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SancionActivity"
+    tools:context=".ReporteActivity"
     tools:showIn="@layout/activity_reporte">
 
     <android.support.v7.widget.RecyclerView

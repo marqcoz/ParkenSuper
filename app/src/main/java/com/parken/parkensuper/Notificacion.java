@@ -17,8 +17,6 @@ import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_EP_BOOKED;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_EP_BOOKED_OUT;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_FINISH_PS;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_MOVEMENT;
-import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_NEW_RECEIPT;
-import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_NEW_SPACE;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_PARKEN_OUT;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_PAYING;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_PAYING_CANCEL;
@@ -134,6 +132,7 @@ public class Notificacion extends Notification {
 
                 break;
 
+
             case ParkenActivity.NOTIFICATION_INFO:
 
                 info = data.split("&");
@@ -172,24 +171,6 @@ public class Notificacion extends Notification {
                         .setAutoCancel(false);
 
 
-                break;
-
-
-
-            case NOTIFICATION_NEW_SPACE:
-
-                title = "Nuevo espacio Parken disponible";
-                msg = "El espacio " + data + " ahora es el más cercano a tu destino.";
-
-
-                notificacion
-                        .setContentTitle(title)
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
-
-                        .setContentIntent(pendingIntent)
-
-                        .setOngoing(false)
-                        .setAutoCancel(false);
                 break;
 
 

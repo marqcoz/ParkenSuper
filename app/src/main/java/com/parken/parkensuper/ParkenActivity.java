@@ -198,7 +198,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     public static final int NOTIFICATION_INFO = 1;
     public static final int NOTIFICATION_CANCEL = 20;
     public static final int NOTIFICATION_NEW_REPORT = 100;
-    public static final int NOTIFICATION_NEW_SPACE = 200;
+    public static final int NOTIFICATION_SUPER_DELETED = 200;
     public static final int NOTIFICATION_EP_BOOKED = 300;
     public static final int NOTIFICATION_EP_BOOKED_OUT = 350;
     public static final int NOTIFICATION_PARKEN_OUT = 400;
@@ -1186,6 +1186,13 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                 break;
 
+            case NOTIFICATION_SUPER_DELETED:
+
+                Log.e("Notification", "SuperDeleted");
+                cerrarSesion();
+                break;
+
+
 
             case NOTIFICATION_EP_BOOKED:
 
@@ -1574,6 +1581,27 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         return builder.create();
     }
 
+    private AlertDialog cerrarSesionXDuplicado() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activityParken);
+
+        builder.setTitle("Cerrar sesión")
+                .setMessage("Has iniciado sesión en otro dispositivo.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }})
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        cerrarSesion();
+                    }
+
+                });
+
+        return builder.create();
+    }
+
     private AlertDialog dialogPermissionRequired() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activityParken);
 
@@ -1955,6 +1983,63 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         fRequestQueue.add(jsArrayRequest);
     }
 
+
+    private void verificarSupervisor() throws JSONException {
+
+        HashMap<String, String> parametros = new HashMap();
+        parametros.put("idSupervisor", session.infoId());
+
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                Jeison.URL_VERIFY_SUPER,
+                new JSONObject(parametros),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try{
+                            if(response.getInt("success") == 1){
+
+                                Log.d("VerificarSupervisor", response.toString());
+
+                                if(response.getString("token").equals("") || response.getString("token").equals("null") || response.getString("token") == null){
+                                    cerrarSesion();
+                                }else{
+
+                                    //Si esta veirficado y procedemos a obtener el token
+                                    if(!response.getString("token").equals(session.getToken())){
+                                        cerrarSesionXDuplicado().show();
+                                    }else {
+                                        obtenerReportes();
+                                    }
+
+                                }
+
+                            }else{
+                                Log.d("VerificarSupervisor", response.toString());
+                                cerrarSesion();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("VerificarSupervisor", "Error Respuesta en JSON: " + error.getMessage());
+
+
+                    }
+                });
+
+        fRequestQueue.add(jsArrayRequest);
+    }
+
+
+
+
     private int hayReportesPendientes(String reportes) throws JSONException {
         //En este metodo obtenemos de una consulta el json con la información de los reportes
         //Lo parseamos y creamos el objeto sancion
@@ -2069,7 +2154,6 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             startActivity(new Intent(ParkenActivity.this, ModifyParkenSpaceActivity.class)
                     .putExtra("Activity", "ParkenActivity"));
 
-
         } else if (id == R.id.nav_session) {
             startActivity(new Intent(ParkenActivity.this,SesionParkenActivity.class));
 
@@ -2079,6 +2163,9 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
         } else if (id == R.id.nav_reports) {
             startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
+
+        }else if (id == R.id.nav_pay_session) {
+            startActivity(new Intent(ParkenActivity.this, PayReceiptActivity.class));
         }
 
 
@@ -2146,7 +2233,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         if (networkInfo != null && networkInfo.isConnected()) {
             // Si hay conexión a Internet en este momento
             try {
-                obtenerReportes();
+                verificarSupervisor();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -2203,7 +2290,9 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     @Override
     protected void onDestroy() {
 
+       if(googleApiClient != null){
         googleApiClient.disconnect();
+       }
 
         //Cerrar sockets -------------------------------------------------
         mSocket.disconnect();

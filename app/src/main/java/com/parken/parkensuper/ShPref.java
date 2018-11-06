@@ -151,6 +151,13 @@ public class ShPref {
         editor.commit();
     }
 
+    public void setToken(String token){
+        editor.putString("Token", token);
+        editor.commit();
+    }
+
+    public String getToken(){ return prefs.getString("Token", "null"); }
+
     //public String getVista(){ return prefs.getString("vista", ParkenActivity.VIEW_PARKEN);}
 
     public boolean getCancel(){ return prefs.getBoolean("onCancel", true); }

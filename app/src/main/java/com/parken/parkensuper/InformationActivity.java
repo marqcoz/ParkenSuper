@@ -32,12 +32,14 @@ import java.util.HashMap;
 
 public class InformationActivity extends AppCompatActivity {
 
+    private ConstraintLayout zonaparken;
     private ConstraintLayout nombre;
     private ConstraintLayout apellido;
     private ConstraintLayout correo;
     private ConstraintLayout celular;
     private ConstraintLayout contrasena;
 
+    private TextView zona;
     private TextView name;
     private TextView last;
     private TextView mail;
@@ -85,12 +87,14 @@ public class InformationActivity extends AppCompatActivity {
         imgProfile = findViewById(R.id.imageView2);
         msgNoProfile = findViewById(R.id.textViewMessageNoProfile);
 
+        zonaparken = findViewById(R.id.constraintZonaParken);
         nombre = findViewById(R.id.constraintNombre);
         apellido = findViewById(R.id.constraintApellido);
         correo = findViewById(R.id.constraintCorreo);
         celular = findViewById(R.id.constraintCelular);
         contrasena = findViewById(R.id.constraintContrasena);
 
+        zona = findViewById(R.id.textViewZona);
         name = findViewById(R.id.textViewName);
         last = findViewById(R.id.textViewLast);
         mail = findViewById(R.id.textViewMail);
@@ -210,6 +214,7 @@ public class InformationActivity extends AppCompatActivity {
                                         response.getString("Direccion"), response.getString("Estatus"), response.getString("Zona"));
 
                                 //session.setVehiculos("");
+                                zona.setText(response.getString("Zona") + " - " + response.getString("NombreZona"));
                                 name.setText(response.getString("Nombre"));
                                 last.setText(response.getString("Apellido"));
                                 mail.setText(response.getString("Email"));
@@ -258,11 +263,12 @@ public class InformationActivity extends AppCompatActivity {
         sbView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
         snackbar.show();
 
-        imgProfile.getLayoutParams().height = 120;
-        imgProfile.getLayoutParams().width = 120;
+        //imgProfile.getLayoutParams().height = 60;
+        //imgProfile.getLayoutParams().width = 60;
         imgProfile.setImageResource(R.drawable.ic_no_profile);
         msgNoProfile.setVisibility(View.VISIBLE);
         msgNoProfile.setText("Error al cargar tu perfil.");
+        zonaparken.setVisibility(View.GONE);
         nombre.setVisibility(View.GONE);
         name.setText("");
         apellido.setVisibility(View.GONE);
