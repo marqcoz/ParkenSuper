@@ -559,6 +559,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
         HashMap<String, String> parametros = new HashMap();
         parametros.put("idZona", zona);
+        parametros.put("opc", "1");
 
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                 Request.Method.POST,

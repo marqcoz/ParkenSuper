@@ -596,6 +596,7 @@ public class CreateReceiptActivity extends AppCompatActivity {
 
         HashMap<String, String> parametros = new HashMap();
         parametros.put("idZona", zona);
+        parametros.put("opc", "2");
 
         JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
                 Request.Method.POST,
