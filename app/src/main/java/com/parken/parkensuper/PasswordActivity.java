@@ -334,7 +334,7 @@ public class PasswordActivity extends AppCompatActivity {
             // Show the Up button in the action bar.
             if(act.equals("recoverPasswordActivity")){
                 actionBar.setDisplayHomeAsUpEnabled(false);
-                actionBar.setTitle("Reestablecer contraseña");
+                actionBar.setTitle("Restablecer contraseña");
 
             }else{
                 actionBar.setDisplayHomeAsUpEnabled(true);

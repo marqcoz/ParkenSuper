@@ -64,7 +64,7 @@
     <string name="alert_no_login_tittle">Error al iniciar sesión</string>
     <string name="alert_no_login_message">Correo o contraseña incorrecta. Intenta de nuevo.</string>
     <string name="alert_no_user_tittle">El usuario no existe</string>
-    <string name="alert_no_user_message">El usuario no está registrado en Parken</string>
+    <string name="alert_no_user_message">El usuario no está registrado en Parken.</string>
 
 
     <!-- Crear cuenta "CreateActivity" -->

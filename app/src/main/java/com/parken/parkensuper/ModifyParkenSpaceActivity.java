@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -239,6 +240,10 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
             @Override
             public void afterTextChanged(Editable s) {
+                if(txtNewEstatusEspacioParken.getText().toString().equals("DISPONIBLE")) txtNewEstatusEspacioParken.setTextColor(Color.parseColor("#27ae60"));
+                if(txtNewEstatusEspacioParken.getText().toString().equals("OCUPADO")) txtNewEstatusEspacioParken.setTextColor(Color.parseColor("#F44336"));
+                if(txtNewEstatusEspacioParken.getText().toString().equals("REPORTADO")) txtNewEstatusEspacioParken.setTextColor(Color.BLUE);
+                if(txtNewEstatusEspacioParken.getText().toString().equals("SANCIONADO")) txtNewEstatusEspacioParken.setTextColor(Color.RED);
 
                 if(!txtNewEstatusEspacioParken.getText().toString().equals("Selecciona"))
                     actualizar.setVisibility(View.VISIBLE);
@@ -422,8 +427,13 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
             for(int i = 0; i < jsonArray.length(); i++){
 
+
                 JSONArray jsonArrayPolygon = new JSONArray(jsonArray.getJSONObject(i).getString("coordenadas"));
                 PolygonOptions rectOptions = new PolygonOptions();
+
+                JSONArray jsonArrayCentro = new JSONArray(jsonArray.getJSONObject(i).getString("centro"));
+                LatLng cen= new LatLng(Double.parseDouble(jsonArrayCentro.getJSONObject(0).getString("longitud")), Double.parseDouble(jsonArrayCentro.getJSONObject(0).getString("latitud")));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cen, 17));
 
                 for(int j = 0; j < jsonArrayPolygon.length(); j++){
                     LatLng coord= new LatLng(Double.parseDouble(jsonArrayPolygon.getJSONObject(j).getString("longitud")), Double.parseDouble(jsonArrayPolygon.getJSONObject(j).getString("latitud")));
@@ -454,6 +464,8 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                */
 
             }
+
+
 
 
         }catch (Exception e){
@@ -521,6 +533,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                             showProgress(false);
 
                             if(response.getInt("success") == 1){
+
 
                                 dibujarZonaParken(response.getString("zonasparken"));
 
@@ -736,12 +749,13 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
             txtEstatusEspacioParken.setText(jsonEspacioParken.getString("estatusespacioparken"));
 
             if(status.equals("DISPONIBLE")) txtEstatusEspacioParken.setTextColor(Color.parseColor("#27ae60"));
-            if(status.equals("OCUPADO")) txtEstatusEspacioParken.setTextColor(Color.RED);
+            if(status.equals("OCUPADO")) txtEstatusEspacioParken.setTextColor(Color.parseColor("#F44336"));
             if(status.equals("REPORTADO")) txtEstatusEspacioParken.setTextColor(Color.BLUE);
-            if(status.equals("SANCIONADO")) txtEstatusEspacioParken.setTextColor(Color.YELLOW);
+            if(status.equals("SANCIONADO")) txtEstatusEspacioParken.setTextColor(Color.RED);
 
             newestatusep.setVisibility(View.VISIBLE);
             txtNewEstatusEspacioParken.setText("Selecciona");
+            //txtNewEstatusEspacioParken.setTextColor(Color.parseColor("F44336"));
             asignarNewEstatusDisponibles(status);
 
 
@@ -880,19 +894,14 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
                             Log.d(TAG, response.toString());
-
                             try {
+
                                 showProgress(false);
-
                                 if(response.getInt("success") ==1){
-
                                     //Modificacion exitosa
                                     modificacionReporte(EXITO);
-
                                 }else{
-
                                     modificacionReporte(FAIL);
                                 }
 
@@ -902,9 +911,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                                 e.printStackTrace();
                                 showProgress(false);
                                 modificacionReporte(FAIL);
-
                             }
-
                         }
                     },
                     new Response.ErrorListener() {
@@ -981,9 +988,8 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
             case "SANCIONADO":
 
-                newestatus = new CharSequence[2];
-                newestatus[0] = "OCUPADO";
-                newestatus[1] = "DISPONIBLE";
+                newestatus = new CharSequence[1];
+                newestatus[0] = "DISPONIBLE";
 
                 break;
 
@@ -1360,6 +1366,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                         estatusNuevo = (String) newestatus[which];
                         txtNewEstatusEspacioParken.setText(estatusNuevo);
 
+
                     }
                 })
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -1397,16 +1404,34 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 0){
+            finish();
+        }
+    }
+
     private AlertDialog dialogConfirmarLiberacion(final String idsesion){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("¿Estás seguro de modificar el estatus a DISPONIBLE?")
-                .setMessage("El pago de la sanción no está registrada en el sistema. " +
-                        "Presiona OK únicamente si el espacio Parken está vacío. ")
+        builder.setTitle("¿Modificar el estatus a DISPONIBLE?")
+                .setMessage("El pago de la sanción no está registrada en el sistema.\n" +
+                        "Registra el pago de la sanción o presiona OK únicamente si el espacio Parken está vacío. ")
                 .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        showProgress(false);
+                    }
+                })
+                .setNeutralButton("Registrar pago", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent pagarsancion = new Intent(ModifyParkenSpaceActivity.this, PayReceiptActivity.class);
+                        pagarsancion.putExtra("Activity", "ModifyParkenSpaceActivity");
+                        pagarsancion.putExtra("IdEspacio", String.valueOf(idEP));
+                        startActivityForResult(pagarsancion, 0);
                         showProgress(false);
                     }
                 })

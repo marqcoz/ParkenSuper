@@ -250,7 +250,7 @@ public class InformationActivity extends AppCompatActivity {
 
     public void showSnackbar(){
 
-        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "No es posible modificar ésta información", Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "No es posible modificar esta información.", Snackbar.LENGTH_LONG);
         View sbView = snackbar.getView();
         sbView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
         snackbar.show();

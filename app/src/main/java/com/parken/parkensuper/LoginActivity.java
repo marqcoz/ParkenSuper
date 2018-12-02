@@ -150,7 +150,11 @@ public class LoginActivity extends AppCompatActivity {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)) {
+            pass.setError(getString(R.string.error_field_required));
+            focusView = pass;
+            cancel = true;
+        } else  if (!isPasswordValid(password)) {
             pass.setError(getString(R.string.error_invalid_password));
             focusView = pass;
             cancel = true;

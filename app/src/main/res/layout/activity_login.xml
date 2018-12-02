@@ -52,10 +52,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
+                android:fontFamily="@font/source_sans_pro"
                 android:text="@string/brand"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -68,12 +70,15 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/source_sans_pro"
                     android:hint="@string/string_email"
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorHint="@android:color/background_dark" />
+                    android:textColorHint="@android:color/background_dark"
+                    android:textSize="18sp"
+                    android:typeface="normal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -85,7 +90,8 @@
                     android:id="@+id/editTextPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="40dp"
+                    android:fontFamily="@font/source_sans_pro"
                     android:hint="@string/string_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
@@ -93,7 +99,9 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColorLink="@color/colorPrimaryDark" />
+                    android:textColorLink="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:typeface="normal" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -103,14 +111,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_rounded"
                 android:baselineAligned="false"
+                android:fontFamily="@font/source_sans_pro"
                 android:paddingLeft="10dp"
+                android:paddingTop="15dp"
                 android:paddingRight="10dp"
+                android:paddingBottom="15dp"
                 android:text="@string/button_login"
                 android:textAllCaps="?android:attr/windowOverscan"
                 android:textColor="@android:color/background_light"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:stateListAnimator="@null"
+                android:typeface="normal" />
 
             <Button
                 android:id="@+id/btnRecover"
@@ -118,10 +132,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/source_sans_pro"
                 android:text="@string/link_recover_pass"
                 android:textAllCaps="?android:attr/windowOverscan"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:typeface="normal" />
 
         </LinearLayout>
 

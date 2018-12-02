@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/imageView"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/source_sans_pro"
                     android:text="Vehiculo"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:textStyle="bold" />
@@ -80,7 +80,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         android:layout_weight="1"
-                        android:fontFamily="@font/roboto"
+                        android:fontFamily="@font/source_sans_pro"
                         android:gravity="center_vertical"
                         android:text="Zona"
                         android:textColor="@android:color/background_dark"
@@ -162,10 +162,13 @@
 
                     <TextView
                         android:id="@+id/direccion"
-                        android:layout_width="wrap_content"
+                        android:layout_width="201dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
+                        android:lines="1"
+                        android:maxLines="3"
                         android:paddingBottom="@dimen/activity_vertical_margin"
                         android:text="Direccion"
                         android:textSize="12sp"
@@ -234,7 +237,7 @@
                         card_view:layout_constraintHorizontal_bias="0.067"
                         card_view:layout_constraintStart_toStartOf="parent"
                         card_view:layout_constraintTop_toBottomOf="@+id/imageViewIconMoney"
-                        card_view:srcCompat="@mipmap/ic_user" />
+                        card_view:srcCompat="@drawable/ic_mini_user" />
 
                     <TextView
                         android:id="@+id/automovilista"

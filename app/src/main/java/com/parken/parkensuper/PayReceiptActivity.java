@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
@@ -43,7 +44,7 @@ public class PayReceiptActivity extends AppCompatActivity {
     protected RequestQueue fRequestQueue;
 
     private String jsonEspacios;
-
+    String origin;
     private View mPagarSancionFormView;
     private View mProgressView;
 
@@ -153,14 +154,30 @@ public class PayReceiptActivity extends AppCompatActivity {
 
     public  void cargarDatos(){
 
+
+        Intent intent = getIntent();
+        if (null != intent) {
+            origin = intent.getStringExtra("Activity");
+        }
         //Flujo:
+        //From ModifyParkenSpaceActivity or ParkenActivity
         //Mostrar unicamente espacioParkenConstraint
-        espacioParken.setVisibility(View.VISIBLE);
-        txtEspacioParken.setText(LABEL_SELECT_ESPACIO);
+        if(origin.equals("ParkenActivity") || origin == null){
+            espacioParken.setVisibility(View.VISIBLE);
+            txtEspacioParken.setText(LABEL_SELECT_ESPACIO);
+        }else{
+            idEP = intent.getStringExtra("IdEspacio");
+            espacioParken.setEnabled(false);
+            showProgress(true);
+            obtenerEspaciosParkenParaPagarSancion(session.getZonaSupervisor());
+        }
+
+
 
         //Deshabilitar el botón de activar sesión Parken
         pay.setEnabled(false);
-        pay.setBackgroundColor(Color.parseColor("#757575"));
+        //pay.setBackgroundColor(Color.parseColor("#757575"));
+        pay.setBackground(getDrawable(R.drawable.button_rounded_gray));
 
 }
 
@@ -236,7 +253,8 @@ public class PayReceiptActivity extends AppCompatActivity {
         txtMonto.setText(mon);
 
         pay.setEnabled(true);
-        pay.setBackgroundColor(Color.parseColor("#FFF44336"));
+        //pay.setBackgroundColor(Color.parseColor("#FFF44336"));
+        pay.setBackground(getDrawable(R.drawable.button_rounded));
 
         //And everything ready for pay the bill
 
@@ -299,7 +317,14 @@ public class PayReceiptActivity extends AppCompatActivity {
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        finish();
+                        if(origin.equals("ParkenActivity")){
+                            finish();
+                        }else {
+                            setResult(RESULT_CANCELED);
+                            finish();
+                        }
+
+
                     }
                 })
                 .setPositiveButton("OK",
@@ -323,6 +348,7 @@ public class PayReceiptActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                showProgress(true);
                                 pagarSancion(String.valueOf(idSancion));
                                 dialog.dismiss();
                             }
@@ -408,8 +434,27 @@ public void obtenerEspaciosParkenParaPagarSancion(String zona){
                                 monto = response.getDouble("monto");
 
                                 obtenerEspaciosParken(jsonEspacios, response.getString("numeroespaciosparken"));
-                                dialogEspaciosParkenList().show();
 
+                                if(origin.equals("ParkenActivity")){
+
+                                    dialogEspaciosParkenList().show();
+                                }else{
+                                    //Llenamos la información
+                                    for(int r = 0; r < espaciosparkenId.length; r++){
+                                        if(espaciosparkenId[r].equals(idEP)){
+                                            idEP = espaciosparkenId[r];
+                                            zonaEspacioParken = espaciosparkenZona[r];
+                                            idSancion = espaciosparkenIdSancion[r];
+                                            idVehiculo = espaciosparkenIdVehiculo[r];
+                                            marcaVehiculo = espaciosparkenMarcaVehiculo[r];
+                                            modeloVehiculo = espaciosparkenModeloVehiculo[r];
+                                            placaVehiculo = espaciosparkenPlacaVehiculo[r];
+                                            break;
+                                        }
+                                    }
+
+                                    txtEspacioParken.setText(idEP);
+                                }
 
                             } else{
 

@@ -940,10 +940,6 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             ActionBar actionBar = getSupportActionBar();
             actionBar.setTitle("En camino");
 
-            //Ocultar todos los botones
-            //turnDownButtons();
-
-            //Limpiamos todas las notificaciones que pudieran estar
 
             //Mantenemos la pantalla siempre encendida, durante el trayecto
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -965,7 +961,11 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             nombreDestino = jsonReporte.getString("idespacioparken");
             //Mostramos el marker con el punto del destino
             if (nombreDestino != null) Log.d("Nombre destino", nombreDestino);
-            mMap.addMarker(new MarkerOptions().position(destino).title("Espacio Parken:").snippet(nombreDestino).icon(BitmapDescriptorFactory.fromResource(R.mipmap.finish)));
+            mMap.addMarker(new MarkerOptions()
+                    .position(destino)
+                    .title("Espacio Parken:")
+                    .snippet(nombreDestino)
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.finish)));
 
             //Creamos la GEOCERCA (Destino)
             try {
@@ -975,14 +975,6 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             } catch (JSONException e) {
                 e.printStackTrace();
                 dialogErrorGeofence().show();
-            }
-
-            //Desconectamos el socket
-
-
-
-            if (time == RELOAD) {
-
             }
 
         }
@@ -995,41 +987,16 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
             LatLng origin = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
-
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             if (networkInfo != null && networkInfo.isConnected()) {
 
                 alertLay.setVisibility(View.GONE);
-
                 drawRoute(origin, destino);
 
-
             }else {
-
                 alertLay.setVisibility(View.VISIBLE);
                 txtAlertNoInternet.setText("No hay conexión a Internet");
             }
-
-        //Vista del supervisor al atender un reporte
-        //Establecer coordendasDestino (espacioParkenReportado)
-
-        //Iniciar geocerca con centro en el espacioParken
-
-        //Habilitar botones
-        //Navegar y cancelar
-
-        //Dibujar la ruta
-
-        //Al navegar abri waze o maps
-
-        //Al cancelar confirmar y si acepta, cerrar su sesión y asignar el reporte a otro supervisor
-
-        //La geocerca estarà al pendiente si entra al espacio, para que automoticamente le le muestre la opcion
-
-        //Atender reporte
-
-        // y le abra el activity modificar espacioParken
-        //Con activity reporte
 
     }
 
@@ -2165,7 +2132,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
 
         }else if (id == R.id.nav_pay_session) {
-            startActivity(new Intent(ParkenActivity.this, PayReceiptActivity.class));
+            startActivity(new Intent(ParkenActivity.this, PayReceiptActivity.class).putExtra("Activity", "ParkenActivity"));
         }
 
 

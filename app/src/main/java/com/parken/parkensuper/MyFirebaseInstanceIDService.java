@@ -30,9 +30,11 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * is initially generated so this is where you would retrieve the token.
      */
     // [START refresh_token]
+
     @Override
-    public void onTokenRefresh() {
+    public void onTokenRefresh(){
         // Get updated InstanceID token.
+
 
         session = new ShPref(ParkenActivity.activityParken);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();

@@ -68,6 +68,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "270469578425-9ehvt0lk2vu7glb61h5d48o8g1tl062v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parken.parkensuper",
+            "certificate_hash": "6c89b1b5b4f57a6cbdb5a72b34fd013826a9905b"
+          }
+        },
+        {
           "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -91,8 +99,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

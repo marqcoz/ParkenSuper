@@ -35,6 +35,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -274,6 +276,8 @@ public class SesionParkenActivity extends AppCompatActivity {
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                showProgress(true);
                 if(String.valueOf(estatusEspacioParken).equals("DISPONIBLE")){
 
                     //Verificar que el vehiculo seleccionado este disponible
@@ -283,6 +287,7 @@ public class SesionParkenActivity extends AppCompatActivity {
 
                     }else{
 
+                        showProgress(false);
                         dialogSelectCar().show();
                     }
 
@@ -1137,7 +1142,8 @@ public class SesionParkenActivity extends AppCompatActivity {
                 //Y deshabilitamos el botón de activar
 
                 pay.setEnabled(false);
-                pay.setBackgroundColor(Color.parseColor("#757575"));
+                //pay.setBackgroundColor(Color.parseColor("#757575"));
+                pay.setBackground(getDrawable(R.drawable.button_rounded_gray));
 
             }
 
@@ -1163,8 +1169,8 @@ public class SesionParkenActivity extends AppCompatActivity {
                 //Y deshabilitamos el botón de activar
 
                 pay.setEnabled(false);
-                pay.setBackgroundColor(Color.parseColor("#757575"));
-
+                //pay.setBackgroundColor(Color.parseColor("#757575"));
+                pay.setBackground(getDrawable(R.drawable.button_rounded_gray));
             }
 
         }
@@ -1288,7 +1294,8 @@ public class SesionParkenActivity extends AppCompatActivity {
 
             //obtenerPaypal();
             pay.setEnabled(true);
-            pay.setBackgroundColor(Color.parseColor("#FF34495E"));
+            //pay.setBackgroundColor(Color.parseColor("#FF34495E"));
+            pay.setBackground(getDrawable(R.drawable.button_rounded));
         }
 
     }
@@ -1304,8 +1311,8 @@ public class SesionParkenActivity extends AppCompatActivity {
 
         //Deshabilitar el botón de activar sesión Parken
         pay.setEnabled(false);
-        pay.setBackgroundColor(Color.parseColor("#757575"));
-
+        //pay.setBackgroundColor(Color.parseColor("#757575"));
+        pay.setBackground(getDrawable(R.drawable.button_rounded_gray));
         //Obtener la fecha actual
         selectedYear = obtenerFechaNow(2).get(Calendar.YEAR);
         selectedMonth = obtenerFechaNow(2).get(Calendar.MONTH);
@@ -1317,7 +1324,8 @@ public class SesionParkenActivity extends AppCompatActivity {
         calendarFechaFinalFija = new GregorianCalendar(selectedYear,selectedMonth,selectedDay, 0,0);
         //txtHora.setText("Selecciona...");
         pay.setEnabled(false);
-        pay.setBackgroundColor(Color.parseColor("#757575"));
+        //pay.setBackgroundColor(Color.parseColor("#757575"));
+        pay.setBackground(getDrawable(R.drawable.button_rounded_gray));
         //pay.setVisibility(View.INVISIBLE);;
         montoPrevio = 0.0;
         tiempoPrevio = 0;
@@ -1492,9 +1500,33 @@ public class SesionParkenActivity extends AppCompatActivity {
 
 */
 
+        onTokenRefresh();
+        getToken();
 
     }
+    private static final String TAG = "MyFirebaseIIDService";
 
+    @Override
+
+    public  void getToken(){}
+    public void onTokenRefresh(){
+        // Get updated InstanceID token.
+
+
+        session = new ShPref(ParkenActivity.activityParken);
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        FirebaseMessaging.getInstance().subscribeToTopic("supervisor");
+
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+        volley = VolleySingleton.getInstance(ParkenActivity.activityParken.getApplicationContext());
+        fRequestQueue = volley.getRequestQueue();
+
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        sendRegistrationToServer(refreshedToken);
+    }
     private void setupActionBar(boolean estatus) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

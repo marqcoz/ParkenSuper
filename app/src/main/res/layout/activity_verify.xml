@@ -56,8 +56,8 @@
         android:id="@+id/nestedScrollForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
     </android.support.v4.widget.NestedScrollView>

@@ -121,6 +121,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -143,6 +144,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -163,6 +165,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -186,6 +189,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -205,6 +209,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -230,6 +235,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -249,6 +255,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -268,6 +275,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -288,6 +296,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -310,6 +319,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -336,6 +346,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -376,6 +387,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -400,6 +412,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)
@@ -418,6 +431,7 @@ public class Notificacion extends Notification {
 
                 notificacion
                         .setContentTitle(title)
+                        .setContentText(msg)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
 
                         .setContentIntent(pendingIntent)

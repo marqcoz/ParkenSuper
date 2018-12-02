@@ -37,12 +37,14 @@
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
                 android:drawablePadding="8dp"
+                android:fontFamily="@font/source_sans_pro"
                 android:gravity="center_vertical"
                 android:paddingStart="16dp"
                 android:text="Cerrar sesión"
                 android:textAlignment="gravity"
                 android:textAllCaps="false"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textStyle="bold"
                 android:theme="@style/AppTheme" />
 
         </LinearLayout>
