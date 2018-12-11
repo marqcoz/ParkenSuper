@@ -183,7 +183,7 @@ public class ReporteActivity extends AppCompatActivity {
                             imgInfo.setImageResource(R.drawable.ic_no_connection);
                             txtViewMessageReporte.setVisibility(View.VISIBLE);
                             aux.setVisibility(View.VISIBLE);
-                            txtViewMessageReporte.setText("Error al cargar las sanciones.");
+                            txtViewMessageReporte.setText("Error al cargar los reportes.");
                         }
                     }
                 },
@@ -220,10 +220,14 @@ public class ReporteActivity extends AppCompatActivity {
 
         for (int i = 0; i < jsonReportes.length(); i++) {
 
-            JSONArray jsonSancionCentro = new JSONArray(jsonReportes.getJSONObject(i).getString("coordenada"));
+            //JSONArray jsonSancionCentro = new JSONArray(jsonReportes.getJSONObject(i).getString("coordenada"));
             //Los invertí, no se por que
+            /*
             longitud = jsonSancionCentro.getJSONObject(0).getDouble(    "latitud");
             latitud = jsonSancionCentro.getJSONObject(0).getDouble("longitud");
+            */
+            longitud = Double.valueOf(jsonReportes.getJSONObject(i).getString("latitud"));
+            latitud = Double.valueOf(jsonReportes.getJSONObject(i).getString("longitud"));
 
             report = new Reporte(jsonReportes.getJSONObject(i).getInt("idreporte"),
                     jsonReportes.getJSONObject(i).getString("tiemporeporte"),

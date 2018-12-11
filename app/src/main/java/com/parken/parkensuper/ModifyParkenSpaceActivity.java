@@ -298,6 +298,11 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
         uiSettings.setIndoorLevelPickerEnabled(false);
         uiSettings.setTiltGesturesEnabled(false);
 
+        // Add a marker in Sydney and move the camera
+        LatLng df = new LatLng(19.432581, -99.133161);
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(df, 10.0f));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(df, 10));
+
         try {
 
             cargarDatos();
@@ -306,10 +311,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                 mMap.setOnMarkerClickListener(this);
             }
 
-            // Add a marker in Sydney and move the camera
-            LatLng df = new LatLng(19.432581, -99.133161);
-            //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(df, 10.0f));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(df, 10));
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -374,10 +376,14 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
                         JSONObject jsonReporte = new JSONObject(intent.getStringExtra("jsonReporte"));
                         //Establecer las coordenadas
-                        JSONArray jsonReporteCoo = new JSONArray(jsonReporte.getString("coordenada"));
+                        //JSONArray jsonReporteCoo = new JSONArray(jsonReporte.getString("coordenada"));
                         //Los invertí, no se por que
+                        /*
                         double longitud = jsonReporteCoo.getJSONObject(0).getDouble("longitud");
                         double latitud = jsonReporteCoo.getJSONObject(0).getDouble("latitud");
+                        */
+                        double latitud = Double.valueOf(jsonReporte.getString("latitud"));
+                        double longitud = Double.valueOf(jsonReporte.getString("longitud"));
                         LatLng destination = new LatLng(longitud, latitud);
                         idEP =  jsonReporte.getString("idespacioparken");
 
@@ -956,8 +962,8 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
             case "DISPONIBLE":
 
                 newestatus = new CharSequence[2];
-                newestatus[0] = "OCUPADO";
-                newestatus[1] = "SANCIONADO";
+                newestatus[0] = "SANCIONADO";
+                newestatus[1] = "DISPONIBLE";
 
                 break;
 

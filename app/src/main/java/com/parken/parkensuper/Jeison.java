@@ -11,7 +11,7 @@ public class Jeison {
 
     public static final String YOUR_API_KEY = "AIzaSyDkmiXSeUvTkbXgV7UYpwmhiysqkrjqcZ0";
 
-    public static final String IP = "192.168.1.72";
+    //public static final String IP = "192.168.1.72";
     //public static final String IP = "192.168.200.42";
     //public static final String IP = "10.100.126.239";
     //public static final String IP = "192.168.43.236";
@@ -23,7 +23,7 @@ public class Jeison {
     //public static final String IP = "10.100.126.239";
 
     //public static final String IP = "3.16.52.71";
-    //public static final String IP = "www.parkenapp.com";
+    public static final String IP = "www.parkenapp.com";
 
 
 

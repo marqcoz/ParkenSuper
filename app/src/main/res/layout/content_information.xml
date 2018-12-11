@@ -56,7 +56,7 @@ tools:showIn="@layout/activity_information">
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textViewZonaParken"
+            android:id="@+id/textViewTipoReporte"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

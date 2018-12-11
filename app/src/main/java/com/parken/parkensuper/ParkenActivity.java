@@ -149,7 +149,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final String VIEW_DRIVER_PAYING = "sesionParkenPagando";
     private static final float RADIUS_GEOFENCE_PARKEN_SPACE_BOOKED = 500f;
     private static final float RADIUS_GEOFENCE_PARKEN_SESSION = 500f;
-    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 1000f;
+    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 100f;
     public static final String METHOD_PARKEN_SPACE_BOOKED = "GEOFENCE_IN";
     public static final String METHOD_PARKEN_SPACE_CHECK = "GEOFENCE_OUT";
     public static final int LOAD = 100;
@@ -244,6 +244,11 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView txtIDEParken;
     private TextView txtNotaEParken;
     private TextView txtReloj;
+
+    private TextView txtEstatusReporte;
+    private TextView textViewIDEP;
+    private TextView txtNotaReportes;
+    private TextView txtTipoReporte;
     private TextView txtAlert;
     private TextView txtAlertNoInternet;
 
@@ -254,7 +259,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private Button espacioParken;
     private Button navegar;
-    private Button cancelar;
+    private Button atender;
     private Button renovar;
     private Button finalizar;
     private Button payReceipt;
@@ -263,11 +268,13 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private ConstraintLayout profile;
     private ConstraintLayout alertReceipt;
+    private ConstraintLayout botones;
 
     private View mProgressView;
     private View mParkenFormView;
     private View alertLay;
     public View infoLay;
+    public View notitas;
 
     private double lat;
     private double lng;
@@ -322,6 +329,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     private AlertDialog _dialog;
     private AlertDialog dialogPermissionLocationRequired;
+    private AlertDialog dialogAlertNoLocation;
     private AlertDialog dialogFailedVista;
     private AlertDialog dialogFailedValores;
     private AlertDialog dialogParken;
@@ -487,6 +495,8 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
         mGeofencingClient = LocationServices.getGeofencingClient(this);
         connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
         /*
 
 
@@ -506,7 +516,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 */
 
         navegar = findViewById(R.id.btnNavegar);
-        cancelar = findViewById(R.id.btnCancelar);
+        atender = findViewById(R.id.btnAtender);
 
         renovar = findViewById(R.id.btnRenovar);
         finalizar = findViewById(R.id.btnFinalizar);
@@ -515,24 +525,35 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
         center = findViewById(R.id.floatingCenterMap);
 
+        botones = findViewById(R.id.constraintLayoutButtons);
+
         logout = findViewById(R.id.btnCerrarSesion);
 
         mParkenFormView = findViewById(R.id.map_form);
         mProgressView = findViewById(R.id.parken_progress);
         infoLay = findViewById(R.id.InfoLayout);
+        notitas = findViewById(R.id.linearLayoutNotititas);
         //declareElements();
 
         alertLay = findViewById(R.id.AlertLayout);
 
         alertReceipt = findViewById(R.id.AlertReceiptLayout);
 
-        txtEstatusEParken = findViewById(R.id.textViewEstatusEspacioParken);
-        txtDireccionEParken = findViewById(R.id.textViewDireccionEspacioParken);
-        txtIDEParken = findViewById(R.id.textViewIDParken);
-        txtNotaEParken = findViewById(R.id.textViewNota);
+        txtEstatusReporte = findViewById(R.id.textViewEstatusR);
+        txtDireccionEParken = findViewById(R.id.textViewDireccion);
+        textViewIDEP = findViewById(R.id.textViewIDEP);
+        txtNotaReportes = findViewById(R.id.textViewNotitas);
+        txtTipoReporte = findViewById(R.id.textViewTipoReporte);
+
         txtReloj = findViewById(R.id.textViewRelojito);
         txtAlert = findViewById(R.id.textViewAlert);
         txtAlertNoInternet = findViewById(R.id.textViewAlertNoInternet);
+
+        infoLay = findViewById(R.id.InfoLayout);
+
+
+
+
 
         volley = VolleySingleton.getInstance(getApplicationContext());
         fRequestQueue = volley.getRequestQueue();
@@ -555,10 +576,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         txtNameDriver.setText(nameHeader);
 
         createGoogleApi();
-        Log.e("TEST", "si paso");
         googleApiClient.connect();
-
-
 
 
         //Listener de todos los botones
@@ -591,11 +609,13 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         //Debemos limpiar las variables
         //Limpiar el mapa
         //Mostrar el botón de busqueda
-        cancelar.setOnClickListener(new View.OnClickListener() {
+        atender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                dialogConfirmCancelOnReport().show();
+                //dialogConfirmCancelOnReport().show();
+                //Atender el reporte, ejecutar la acción  que hace la geocerca
+                dialogConfirmReportResolve().show();
 
             }
         });
@@ -825,9 +845,17 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void centrarMapa(){
-        CameraUpdate miUbicacion = CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),15);
-        mMap.animateCamera(miUbicacion);
-        center.setVisibility(View.GONE);
+        if(lastLocation !=null){
+            CameraUpdate miUbicacion = CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),15);
+            mMap.animateCamera(miUbicacion);
+            center.setVisibility(View.GONE);
+        }else{
+
+            if(dialogAlertNoLocation == null) {
+                dialogAlertNoLocation = dialogAlertNoLocation();
+                dialogAlertNoLocation.show();
+            }
+        }
     }
 
     /**
@@ -893,18 +921,98 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     public void onParken(int time){
 
-        //Conectar socket
-        connectSocket();
-        mSocket.on(Jeison.SOCKET_ON_CONNECTED, location);
+        vista = VIEW_PARKEN;
+        //onParken:
+        //No hay reportes pendientes, el supervisor se encuentra esperando reportes
 
+
+
+        if(time == LOAD || time == RELOAD) {
+            //Asignar el titulo del toolbar a Parken
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setTitle("Parken");
+
+            //Quitamos el banner
+            infoLay.setVisibility(View.GONE);
+            notitas.setVisibility(View.GONE);
+
+        }
+
+        //Centramos el mapa
         centrarMapa();
 
-        navegar.setVisibility(View.GONE);
-        cancelar.setVisibility(View.GONE);
+        //Enviamos la ubicacion mediante el socket al servidor
 
-        //Abrir el socket y enviar la coordenada, siempre que este conectado
-        //Para que el serve sepa la ubicación y pueda asignar reportes
+        //Siempre, verificamos que tengamos conexion a internet
+        //Verificamos la conexión a internet
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Si hay conexión a Internet en este momento
+            alertLay.setVisibility(View.GONE);
+
+            //Si aun no nos conectamos con el server
+            if (!serverConnected) {
+                //intemos otra vez la conexión con el servidor
+                //try {
+                  //  verificarSupervisor();
+                //} catch (JSONException e) {
+                  //  e.printStackTrace();
+                //}
+                //Si se logra conectar al server, ya no entra aqui
+            }else{
+
+                if(time == LOAD || time == RELOAD){
+
+                    if(snackbarNoServer != null){
+                        snackbarNoServer.dismiss();
+                        snackbarNoServer = null;
+                    }
+
+                    Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                    snackbar.show();
+
+                    //Conectar socket
+                    connectSocket();
+                    mSocket.on(Jeison.SOCKET_ON_CONNECTED, location);
+                    navegar.setVisibility(View.GONE);
+                    atender.setVisibility(View.GONE);
+                }
+
+                if(time == REFRESH){
+
+                    double latitudSuper = lastLocation.getLatitude();
+                    double longitudSuper = lastLocation.getLongitude();
+
+                    HashMap<String, String> jsonLocation = new HashMap();
+                    jsonLocation.put("idSupervisor", session.infoId());
+                    jsonLocation.put("idZonaParken", session.getZonaSupervisor());
+                    jsonLocation.put("lat", String.valueOf(latitudSuper) );
+                    jsonLocation.put("lng", String.valueOf(longitudSuper));
+                    mSocket.emit(Jeison.SOCKET_ON_CONNECTED, new JSONObject(jsonLocation));
+                }
+
+                if(!mSocket.connected()){
+                    //Este es un caso especial, lo que vamos a hacer, es mostrar un bar que diga connectando
+                    //y si esta abierto, no
+                    //showBarServerNotConnectedConnecting();
+                }else {
+                    if(snackbarNoServer != null){
+                        snackbarNoServer.dismiss();
+                        snackbarNoServer = null;
+                        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                        snackbar.show();
+                    }
+                }
+            }
+        }else{
+            alertLay.setVisibility(View.VISIBLE);
+            txtAlertNoInternet.setText("No hay conexión a Internet");
+        }
 
     }
 
@@ -912,6 +1020,13 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     public void onReport(int time, String reporte) throws JSONException {
+
+        //Partiendo del hecho de que hay reporte o llegaun reporte,
+        // se coloca automaticamente la pantala onreport, en lugar de la de reportes
+        //ya tengo todoo un desmadre en mi codigo
+        //Que va a pasar aqui????
+        //Vamos a
+
 
         vista = VIEW_ON_REPORT;
 
@@ -927,32 +1042,52 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
         if(time == LOAD || time == RELOAD) {
 
-            //Obtenemos el JSON
-            reportParken = reporte.substring(1, reporte.length() -1);
-            Log.e("OnReport", reportParken);
+            //Si el socket esta conectado, lo desconectamos
+            if(mSocket.connected()){
+                //Desconectamos el socket
+                mSocket.off(Jeison.SOCKET_ON_CONNECTED, location);
+                mSocket.disconnect();
+            }
 
-            JSONObject jsonReporte = new JSONObject(reportParken);
+            //Obtenemos el JSON
+            //reportParken = reporte.substring(1, reporte.length() -1);
+//            Log.e("OnReport", reportParken);
+            reportParken = reporte;
+            JSONObject jsonReporte = new JSONObject(reporte);
 
             //Limpiamos el mapa de cualquier leyenda o marker
             mMap.clear();
 
             //Asignar el titulo del toolbar a En camino
             ActionBar actionBar = getSupportActionBar();
-            actionBar.setTitle("En camino");
+            actionBar.setTitle("Reporte asignado");
+
+            //Mostramos el banner
+            infoLay.setVisibility(View.VISIBLE);
+            notitas.setVisibility(View.VISIBLE);
+
+            txtEstatusReporte.setText(jsonReporte.getString("estatusreporte"));
+            txtDireccionEParken.setText(jsonReporte.getString("direccion"));
+            textViewIDEP.setText(jsonReporte.getString("idespacioparken"));
+            txtNotaReportes.setText("Dirígite al espacio Parken para resolver el reporte.");
+            txtTipoReporte.setText(jsonReporte.getString("tiporeporte"));
 
 
             //Mantenemos la pantalla siempre encendida, durante el trayecto
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
             //Mostrar los botones disponibles para "En camino"
+            botones.setVisibility(View.VISIBLE);
             navegar.setVisibility(View.VISIBLE);
-            cancelar.setVisibility(View.VISIBLE);
+            atender.setVisibility(View.VISIBLE);
 
             //Establecer las coordenadas
-            JSONArray jsonReporteCoo = new JSONArray(jsonReporte.getString("coordenada"));
+            //JSONArray jsonReporteCoo = new JSONArray(jsonReporte.getString("coordenada"));
             //Los invertí, no se por que
-            double longitud = jsonReporteCoo.getJSONObject(0).getDouble("latitud");
-            double latitud = jsonReporteCoo.getJSONObject(0).getDouble("longitud");
+            //double longitud = jsonReporteCoo.getJSONObject(0).getDouble("latitud");
+            //double latitud = jsonReporteCoo.getJSONObject(0).getDouble("longitud");
+            double longitud = Double.valueOf(jsonReporte.getString("latitud"));
+            double latitud = Double.valueOf(jsonReporte.getString("longitud"));
             latitudDestino = latitud;
             longitudDestino = longitud;
             //Asignamos las coordenadas del destino
@@ -987,16 +1122,59 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
             LatLng origin = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
 
-            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-                alertLay.setVisibility(View.GONE);
-                drawRoute(origin, destino);
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // Si hay conexión a Internet en este momento
+            alertLay.setVisibility(View.GONE);
 
-            }else {
-                alertLay.setVisibility(View.VISIBLE);
-                txtAlertNoInternet.setText("No hay conexión a Internet");
+            //Si aun no nos conectamos con el server
+            if (!serverConnected) {
+                //intemos otra vez la conexión con el servidor
+                try {
+                    verificarSupervisor();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //Si se logra conectar al server, ya no entra aqui
+            }else{
+
+                if(time == LOAD || time == RELOAD){
+
+                    if(snackbarNoServer != null){
+                        snackbarNoServer.dismiss();
+                        snackbarNoServer = null;
+                    }
+
+                    Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                    View sbView = snackbar.getView();
+                    sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                    snackbar.show();
+
+                }
+
+
+
+                if(!mSocket.connected()){
+                    //Este es un caso especial, lo que vamos a hacer, es mostrar un bar que diga connectando
+                    //y si esta abierto, no
+                    //showBarServerNotConnectedConnecting();
+                }else {
+                    if(snackbarNoServer != null){
+                        snackbarNoServer.dismiss();
+                        snackbarNoServer = null;
+                        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                        snackbar.show();
+                    }
+                }
             }
+        }else{
+            alertLay.setVisibility(View.VISIBLE);
+            txtAlertNoInternet.setText("No hay conexión a Internet");
+        }
+
 
     }
 
@@ -1030,6 +1208,29 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
 
     }
+
+    public void showBarServerNotConnected(){
+        if(snackbarNoServer == null)
+            snackbarNoServer = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_INDEFINITE);
+
+        if(!snackbarNoServer.isShown()){
+            View sbView = snackbarNoServer.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            snackbarNoServer.show();
+        }
+    }
+
+    public void showBarServerNotConnectedConnecting(){
+        if(snackbarNoServer == null)
+            snackbarNoServer = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conectando...", Snackbar.LENGTH_INDEFINITE);
+
+        if(!snackbarNoServer.isShown()){
+            View sbView = snackbarNoServer.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            snackbarNoServer.show();
+        }
+    }
+
 
 
     public void abrirGPSBrowser(Double latitud, Double longitud, String label){
@@ -1134,7 +1335,13 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                         case 1:
 
                             Log.e("Action", String.valueOf(actions));
-                            startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
+                            //startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
+                            //Al recibir un reporte, se abre el onReport
+                            try {
+                                onReport(LOAD, data);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             break;
                         case 2:
 
@@ -1374,6 +1581,27 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     }
 
+    public AlertDialog dialogAlertNoLocation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Ubicación desabilitada")
+                .setMessage("Activa la localización del dispositivo para utilizar la aplicación.")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                dialogAlertNoLocation = null;
+                finish();
+            }
+        });
+        return builder.create();
+
+    }
 
     public AlertDialog dialogConfirmLogOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activityParken);
@@ -1620,6 +1848,33 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
         return builder.create();
     }
 
+    private AlertDialog dialogConfirmReportResolve() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activityParken);
+
+        builder.setTitle("¿Resolver reporte?")
+                .setMessage("Aún no te encuentras cerca del espacio Parken reportado.")
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Resolver", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Aqui es donde mandamos llamar para atender el reporte
+                        atenderReporte();
+                    }})
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                    }
+                });
+
+        return builder.create();
+    }
+
+
     private void drawRoute(LatLng origen, LatLng destino) {
         // Getting URL to the Google Directions API
         //String url = getDirectionsUrl(origin, destino);
@@ -1816,18 +2071,16 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
      */
     @Override
     public void onLocationChanged(Location location) {
-        //Log.d("onLocationChanged","TRUE");
 
-        //Lo que haremos aqui es REFRESH actualizar la
-
+        //Aqui enviamos la ubicación del supervisor
         lastLocation = location;
-        //Log.d("onLocationChanged", String.valueOf(latitudDestino) +" - "+ String.valueOf(longitudDestino));
-        //if(session.getVista() != null) {
+
         if(vista != null) {
-            //Log.d("LocationChangedViewShPr",session.getVista());
-            Log.d("LocationChangedVista", vista);
-            //selectView(session.getVista(), METHOD_ON_LOCATION_CHANGED);
-            //selectView(vista, METHOD_ON_LOCATION_CHANGED, null);
+
+            if(vista.equals(VIEW_PARKEN)){ //Si la vista es onParken, entonces refrescamos la vista onParken
+                onParken(REFRESH);
+            }
+
         }else{
             Log.d("LocationChangedVista", "NULL");
         }
@@ -1868,7 +2121,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             alertLay.setVisibility(View.VISIBLE);
             txtAlert.setText("Buscando la señal del GPS");
         }else{
-            alertLay.setVisibility(View.GONE);
+            //alertLay.setVisibility(View.GONE);
         }
 
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
@@ -1902,33 +2155,48 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                                 Log.d("ObtenerReportes", response.toString());
 
+                                serverConnected = true;
+
                                 showProgress(false);
                                 if(hayReportesPendientes(response.getString("reportes")) != 0){
+
                                     //Mostrar alerta en el mapa
                                     //Lanzar notificación
                                     Notificacion.lanzar(getApplicationContext(), NOTIFICATION_NEW_REPORT, "MAX", "");
                                     //Abrir ReporteActivity
-                                    startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
+                                    //startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
+                                    onReport(RELOAD, obtenerReporteAsignado(response.getString("reportes")));
+
+                                    if(mSocket.connected()){
+                                        //Desconectamos el socket
+                                        mSocket.off(Jeison.SOCKET_ON_CONNECTED, location);
+                                        mSocket.disconnect();
+                                    }
 
                                 }else {
                                     onParken(LOAD);
                                 }
 
                             }else{
+
                                 showProgress(false);
-                                Log.d("ObtenerReportes", response.toString());
-                                onParken(LOAD);
+                                if(response.getInt("success") == 3){
+                                    serverConnected = true;
+                                    onParken(LOAD);
+
+                                }else {
+
+                                    Log.d("ObtenerReportes", response.toString());
+                                    showBarServerNotConnected();
+                                    onParken(LOAD);
+                                }
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                             showProgress(false);
-                            //Mostrar snackbar
-                            //Mostrar snackbar
-                            Snackbar snackbar = Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), "Error al conectarse con el servidor.", Snackbar.LENGTH_INDEFINITE);
-                            View sbView = snackbar.getView();
-                            sbView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
-                            snackbar.show();
+                            showBarServerNotConnected();
+                            onParken(LOAD);
 
                         }
                     }
@@ -1938,12 +2206,8 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                     public void onErrorResponse(VolleyError error) {
                         showProgress(false);
                         Log.d("ObtenerReportes", "Error Respuesta en JSON: " + error.getMessage());
-
-                        //Mostrar snackbar
-                        Snackbar snackbar = Snackbar.make(getWindow().getDecorView().findViewById(android.R.id.content), "Error de conexión.", Snackbar.LENGTH_INDEFINITE);
-                        View sbView = snackbar.getView();
-                        sbView.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
-                        snackbar.show();
+                        showBarServerNotConnected();
+                        onParken(LOAD);
                     }
                 });
 
@@ -1989,6 +2253,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            showBarServerNotConnected();
                         }
                     }
                 },
@@ -1996,7 +2261,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("VerificarSupervisor", "Error Respuesta en JSON: " + error.getMessage());
-
+                        showBarServerNotConnected();
 
                     }
                 });
@@ -2016,7 +2281,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
         for (int i = 0; i < jsonReportes.length(); i++) {
 
-            if (jsonReportes.getJSONObject(i).getString("estatusreporte").equals("PENDIENTE")) {
+            if (jsonReportes.getJSONObject(i).getString("estatusreporte").equals("ASIGNADO")) {
                 reportesPendiente++;
             }
         }
@@ -2059,6 +2324,32 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
 
+    private String obtenerReporteAsignado(String reporte) throws JSONException {
+
+        JSONArray jsonReportes = new JSONArray(reporte);
+
+        String reporteAsignado = "";
+
+        for (int i = 0; i < jsonReportes.length(); i++) {
+
+            if (jsonReportes.getJSONObject(i).getString("estatusreporte").equals("ASIGNADO")) {
+                reporteAsignado = jsonReportes.getString(i);
+                Log.e("Obtenerreportes", reporteAsignado);
+            }
+        }
+
+        return reporteAsignado;
+
+    }
+
+    public void atenderReporte(){
+        //Abrir ReporteActivity con el idEspacioparken fijo
+        Intent reportActivity = new Intent(ParkenActivity.this, ModifyParkenSpaceActivity.class);
+        reportActivity.putExtra("Activity", "ReportGeofence");
+        reportActivity.putExtra("jsonReporte", reportParken);
+        startActivity(reportActivity);
+
+    }
 
 
 
@@ -2195,26 +2486,26 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     public void onConnected(@Nullable Bundle bundle) {
         Log.d("Connected", "onConnected()");
 
-
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             // Si hay conexión a Internet en este momento
+            Log.d("Connected", "Si hay conexión a Internet en este momento");
             try {
                 verificarSupervisor();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //obtenerValoresDelServer();
-
         } else {
             // No hay conexión a Internet en este momento
+            Log.d("Connected", "No hay conexión a Internet en este momento");
+            onParken(LOAD);
             alertLay.setVisibility(View.VISIBLE);
             txtAlertNoInternet.setText("No hay conexión a Internet");
         }
 
         createNotificationChannel();
         getLastKnownLocation();
-        onParken(LOAD);
+        //onParken(LOAD);
 
     }
 
@@ -2278,35 +2569,9 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Log.d("SocketOnNewParkenSpace ", args[0].toString());
-
-
                     try {
 
                         JSONObject response = new JSONObject((String) args[0]) ;
-
-                        if(response.getString("success").equals("1")){
-
-                            //Log.d("BuscandoEspacioParken", response.toString());
-                            //mostrarInfoEspacioParken(response.toString(), PARKEN_SPACE_FOUND);
-                            //if(origen.equals(METHOD_PARKEN_SPACE_BOOKED)){
-                            //apartarEspacioParken(response.getString("id"), response.getString("zona"), session.infoId());
-                            //  apartarEspacioParken(response.toString(), session.infoId());
-
-                            //}else{
-                            //  mostrarInfoEspacioParken(response.toString(), PARKEN_SPACE_FOUND);
-                            //}
-                            //espacioParken[0]= response.getString("id");
-                            //espacioParken[1]= response.getString("zona");
-
-
-                            return;
-
-                        }else{
-                            Log.d("BuscandoEspacioParken", "Espacios no disponibles");
-                            return;
-
-                        }
 
                     } catch (JSONException e) {
                         return;
@@ -2350,12 +2615,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                     case INTENT_GEOFENCE_ON_REPORT:
 
-                        //Abrir ReporteActivity con el idEspacioparken fijo
-                        Intent reportActivity = new Intent(ParkenActivity.this, ModifyParkenSpaceActivity.class);
-                        reportActivity.putExtra("Activity", "ReportGeofence");
-                        reportActivity.putExtra("jsonReporte", reportParken);
-                        startActivity(reportActivity);
-
+                        atenderReporte();
 
                         break;
 

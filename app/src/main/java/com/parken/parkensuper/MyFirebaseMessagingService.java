@@ -55,8 +55,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     case ParkenActivity.NOTIFICATION_NEW_REPORT:
 
                         Notificacion.lanzar(getApplicationContext(), idNoti, "MAX", data.toString());
-                        startActivity(new Intent(getApplicationContext(), ReporteActivity.class));
-
+                        //startActivity(new Intent(getApplicationContext(), ReporteActivity.class));
+                        Intent intentNewReport = new Intent(getBaseContext(), ParkenActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("Activity", ParkenActivity.NOTIFICATIONS)
+                                .putExtra("ActivityStatus", idNoti)
+                                .putExtra("Actions", 1)
+                                .putExtra("data", data.toString());
+                            startActivity(intentNewReport);
                         break;
 
                     case ParkenActivity.NOTIFICATION_SUPER_DELETED:

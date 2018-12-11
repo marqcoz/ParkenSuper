@@ -137,12 +137,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
             <LinearLayout
                 android:id="@+id/AlertLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
                 android:orientation="vertical"
+                android:padding="4dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -153,6 +155,7 @@
                     android:id="@+id/textViewAlertNoInternet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/source_sans_pro"
                     android:text="ALERTAS"
                     android:textAlignment="center"
                     android:textColor="@color/common_google_signin_btn_text_dark_focused"
@@ -163,137 +166,389 @@
                 android:id="@+id/InfoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:background="@android:color/background_light"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/AlertLayout">
 
-                <TextView
-                    android:id="@+id/textViewEstatusEspacioParken"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="Estatus del espacio Parken"
-                    android:textAlignment="center"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textViewDireccionEspacioParken"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/linearLayout8"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Dirección del espacio Parken"
-                    android:textSize="@dimen/place_autocomplete_powered_by_google_start" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textViewIDParken"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Número del id Parken"
-                    android:textSize="@dimen/place_autocomplete_powered_by_google_start" />
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_no_connection" />
 
-                <TextView
-                    android:id="@+id/textViewNota"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:gravity="center"
-                    android:text="Nota"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/source_sans_pro"
+                        android:text="conectando..."
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-                <TextView
-                    android:id="@+id/textViewRelojito"
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayoutInfoParken"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/constraintLayoutInfoEP"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textViewLabelReport"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="tipo reporte"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:layout_conversion_absoluteHeight="18dp"
+                            tools:layout_conversion_absoluteWidth="64dp" />
+
+                        <TextView
+                            android:id="@+id/textViewTipoReporte"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="Tipo"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewLabelReport"
+                            tools:layout_conversion_absoluteHeight="21dp"
+                            tools:layout_conversion_absoluteWidth="80dp" />
+
+                        <TextView
+                            android:id="@+id/textViewLabelDireccion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="dirección"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewTipoReporte"
+                            tools:layout_conversion_absoluteHeight="18dp"
+                            tools:layout_conversion_absoluteWidth="48dp" />
+
+                        <TextView
+                            android:id="@+id/textViewDireccion"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:gravity="center"
+                            android:lines="1"
+                            android:maxLines="2"
+                            android:text="Dirección"
+                            android:textColor="@color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewLabelDireccion"
+                            tools:layout_conversion_absoluteHeight="21dp"
+                            tools:layout_conversion_absoluteWidth="184dp" />
+                    </android.support.constraint.ConstraintLayout>
+
+                    <android.support.constraint.ConstraintLayout
+                        android:id="@+id/constraintLayoutInfoEP"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/textViewEstatusR"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="Estatus"
+                            android:textColor="@color/greenPass"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.878"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="espacio Parken"
+                            android:textSize="12sp"
+                            app:layout_constraintBottom_toTopOf="@+id/textViewIDEP"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textViewEstatusR" />
+
+                        <TextView
+                            android:id="@+id/textViewIDEP"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="4dp"
+                            android:fontFamily="@font/source_sans_pro"
+                            android:text="ID"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="30sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.constraint.ConstraintLayout>
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/constraintLayoutRelojes"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Reloj"
-                    android:textAlignment="center"
-                    android:visibility="gone" />
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textViewRelojito"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/source_sans_pro"
+                        android:padding="8dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewRelojito2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:fontFamily="@font/source_sans_pro"
+                        android:padding="8dp"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/background_light"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewRelojito" />
+
+                </android.support.constraint.ConstraintLayout>
+
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutNotititas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/greenPass"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/InfoLayout">
+
+                <TextView
+                    android:id="@+id/textViewNotitas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="Notitas"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.558"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/InfoLayout" />
+            </LinearLayout>
+
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingCenterMap"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="90dp"
-            android:clickable="true"
-            android:visibility="gone"
-            app:backgroundTint="?attr/colorBackgroundFloating"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/ic_center" />
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
 
-        <Button
-            android:id="@+id/btnCancelar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Cancelar"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingCenterMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:clickable="true"
+                android:visibility="visible"
+                app:backgroundTint="?attr/colorBackgroundFloating"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayoutButtons"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_center" />
 
-        <Button
-            android:id="@+id/btnNavegar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorPrimary"
-            android:text="Navegar"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayoutButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/btnFinalizar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Finalizar"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:visibility="gone" />
+                <Button
+                    android:id="@+id/btnRenovar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_rounded"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="Renovar"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/btnFinalizar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnRenovar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/colorPrimary"
-            android:text="Renovar"
-            android:textAlignment="center"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:visibility="gone" />
+                <Button
+                    android:id="@+id/btnFinalizar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_rounded_red"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="Finalizar"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAtender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_rounded_red"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="Resolver"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/btnNavegar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/button_rounded"
+                    android:fontFamily="@font/source_sans_pro"
+                    android:text="Navegar"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/btnAtender"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+
     </android.support.design.widget.CoordinatorLayout>
 
 

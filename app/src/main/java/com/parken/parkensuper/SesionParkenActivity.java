@@ -594,6 +594,7 @@ public class SesionParkenActivity extends AppCompatActivity {
         parametros.put("Tiempo", tiempo);
         parametros.put("idVehiculo", idVehiculo);
         parametros.put("puntosParken", puntosParken);
+        parametros.put("notificacion", "0");
         parametros.put("opc", opc);
         if(opc.equals("3")){
             parametros.put("idEspacioParken", ep);
@@ -1496,37 +1497,9 @@ public class SesionParkenActivity extends AppCompatActivity {
 
 
         }
-
-
 */
-
-        onTokenRefresh();
-        getToken();
-
     }
-    private static final String TAG = "MyFirebaseIIDService";
 
-    @Override
-
-    public  void getToken(){}
-    public void onTokenRefresh(){
-        // Get updated InstanceID token.
-
-
-        session = new ShPref(ParkenActivity.activityParken);
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        FirebaseMessaging.getInstance().subscribeToTopic("supervisor");
-
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
-
-        volley = VolleySingleton.getInstance(ParkenActivity.activityParken.getApplicationContext());
-        fRequestQueue = volley.getRequestQueue();
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
-        sendRegistrationToServer(refreshedToken);
-    }
     private void setupActionBar(boolean estatus) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -375,7 +375,7 @@ public class PayReceiptActivity extends AppCompatActivity {
                         try {
                             if(response.getInt("success") == 1){
                                 //Si hay éxito se notifica al usuario
-                                dialogSuccess().show();
+                                //dialogSuccess().show();
 
 
                             } else{
