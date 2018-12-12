@@ -76,6 +76,14 @@
           }
         },
         {
+          "client_id": "270469578425-c41p7poe1r4nb327nr6lm2cqlvqssjo1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parken.parkensuper",
+            "certificate_hash": "1da07404489d3cc8c03643585dd3fff630e44cae"
+          }
+        },
+        {
           "client_id": "270469578425-oip4tgo2k8ja1f67gjkkb0pskvpo52nf.apps.googleusercontent.com",
           "client_type": 3
         }

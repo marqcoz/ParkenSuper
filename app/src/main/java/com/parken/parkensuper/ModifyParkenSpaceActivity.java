@@ -374,6 +374,9 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                         ActionBar actionBar = getSupportActionBar();
                         actionBar.setDisplayHomeAsUpEnabled(false);
 
+                        //Cerramos la notificación que muestra que hay un nuevo reporte
+                        Notificacion.cerrar(getApplicationContext(), ParkenActivity.NOTIFICATION_NEW_REPORT);
+
                         //Desabilitamos el listener markerClick
                         //mMap.setOnMarkerClickListener(this);
                         Log.e("JsonReporte", intent.getStringExtra("jsonReporte"));

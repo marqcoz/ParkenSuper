@@ -23,6 +23,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     private VolleySingleton volley;
     protected RequestQueue fRequestQueue;
     private ShPref session;
+    private ParkenActivity actParken;
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -35,8 +36,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh(){
         // Get updated InstanceID token.
 
-
-        session = new ShPref(ParkenActivity.activityParken);
+        actParken = new ParkenActivity();
+        //session = new ShPref(ParkenActivity.activityParken);
+        session = new ShPref(actParken.activityParken);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         FirebaseMessaging.getInstance().subscribeToTopic("supervisor");
 

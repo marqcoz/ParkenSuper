@@ -43,6 +43,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -149,7 +150,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final String VIEW_DRIVER_PAYING = "sesionParkenPagando";
     private static final float RADIUS_GEOFENCE_PARKEN_SPACE_BOOKED = 500f;
     private static final float RADIUS_GEOFENCE_PARKEN_SESSION = 500f;
-    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 5000f;
+    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 200f;
     public static final String METHOD_PARKEN_SPACE_BOOKED = "GEOFENCE_IN";
     public static final String METHOD_PARKEN_SPACE_CHECK = "GEOFENCE_OUT";
     public static final int LOAD = 100;
@@ -465,7 +466,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     protected void onCreate(Bundle savedInstanceState) {
 
         Log.d("AppEstatus", "onCreate");
-
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_parken);
@@ -2248,6 +2249,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                         try{
                             if(response.getInt("success") == 1){
+                                serverConnected = true;
 
                                 Log.d("VerificarSupervisor", response.toString());
 
