@@ -1,7 +1,7 @@
 <resources>
     <!-- Strings relacionados a la marca -->
     <string name="brand">Parken</string>
-    <string name="app_name">Parken</string>
+    <string name="app_name">Parken Super</string>
 
     <string name="google_maps_key">AIzaSyDkmiXSeUvTkbXgV7UYpwmhiysqkrjqcZ0</string>
 

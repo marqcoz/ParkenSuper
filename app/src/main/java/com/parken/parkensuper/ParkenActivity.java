@@ -395,6 +395,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     boolean moveIn = false;
     boolean serverConnected = false;
+    int countRequestsServer = 0;
     boolean obtenerVistaServer = false;
     int obtenerVistaServerResponse = 1;
     boolean vistaServer = false;
@@ -851,10 +852,12 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             center.setVisibility(View.GONE);
         }else{
 
+            /*
             if(dialogAlertNoLocation == null) {
                 dialogAlertNoLocation = dialogAlertNoLocation();
                 dialogAlertNoLocation.show();
             }
+            */
         }
     }
 
@@ -974,10 +977,14 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                         snackbarNoServer = null;
                     }
 
-                    Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
-                    View sbView = snackbar.getView();
-                    sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                    snackbar.show();
+                    //Mostrar solo la primera vez
+                    if(countRequestsServer < 1) {
+                        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                        View sbView = snackbar.getView();
+                        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                        snackbar.show();
+                        countRequestsServer++;
+                    }
 
                     //Conectar socket
                     connectSocket();
@@ -1007,10 +1014,14 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                     if(snackbarNoServer != null){
                         snackbarNoServer.dismiss();
                         snackbarNoServer = null;
-                        Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
-                        View sbView = snackbar.getView();
-                        sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                        snackbar.show();
+
+                        if(countRequestsServer < 1) {
+                            Snackbar snackbar = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Conexión con el servidor establecida", Snackbar.LENGTH_SHORT);
+                            View sbView = snackbar.getView();
+                            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                            snackbar.show();
+                            countRequestsServer++;
+                        }
                     }
                 }
             }
@@ -1133,6 +1144,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             // Si hay conexión a Internet en este momento
             alertLay.setVisibility(View.GONE);
 
+            /*
             //Si aun no nos conectamos con el server
             if (!serverConnected) {
                 //intemos otra vez la conexión con el servidor
@@ -1174,7 +1186,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
                         snackbar.show();
                     }
                 }
-            }
+            }*/
         }else{
             alertLay.setVisibility(View.VISIBLE);
             txtAlertNoInternet.setText("No hay conexión a Internet");
