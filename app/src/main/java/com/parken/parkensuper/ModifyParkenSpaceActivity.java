@@ -306,6 +306,11 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
         try {
 
             cargarDatos();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            showProgress(false);
+            showError(10);
+        }
 
             if(origin != null && origin.equals("ParkenActivity")) {
                 mMap.setOnMarkerClickListener(this);
@@ -313,9 +318,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public void loadMap(){
@@ -373,8 +376,12 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
 
                         //Desabilitamos el listener markerClick
                         //mMap.setOnMarkerClickListener(this);
+                        Log.e("JsonReporte", intent.getStringExtra("jsonReporte"));
 
-                        JSONObject jsonReporte = new JSONObject(intent.getStringExtra("jsonReporte"));
+                        JSONObject jsonReporte = null;
+
+                            jsonReporte = new JSONObject(intent.getStringExtra("jsonReporte"));
+
                         //Establecer las coordenadas
                         //JSONArray jsonReporteCoo = new JSONArray(jsonReporte.getString("coordenada"));
                         //Los invertí, no se por que
@@ -388,6 +395,7 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                         idEP =  jsonReporte.getString("idespacioparken");
 
                         idReporteParken = jsonReporte.getString("idreporte");
+
                         //Colocamos el marker con espacioparken
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(destination)
@@ -395,12 +403,14 @@ public class ModifyParkenSpaceActivity extends AppCompatActivity implements OnMa
                                         String.valueOf(idEP)));
                         marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_parken));
 
+
                         //Centramos el mapa en ese espacio
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 18));
 
                         //Para obtener la infromación del espacio parken
                         //Asignamos el id al txtview
                         txtEspacioParken.setText(idEP);
+
 
                         break;
 

@@ -203,7 +203,7 @@ public class ReporteActivity extends AppCompatActivity {
                         imgInfo.setImageResource(R.drawable.ic_no_connection);
                         txtViewMessageReporte.setVisibility(View.VISIBLE);
                         aux.setVisibility(View.VISIBLE);
-                        txtViewMessageReporte.setText("Error al cargar las sanciones.");
+                        txtViewMessageReporte.setText("Error al cargar los reportes.");
                     }
                 });
 
@@ -247,7 +247,7 @@ public class ReporteActivity extends AppCompatActivity {
                     jsonReportes.getJSONObject(i).getString("celularautomovilista"),
                     jsonReportes.getJSONObject(i).getString("token"),
                     jsonReportes.getJSONObject(i).getDouble("puntosparken"),
-                    reportes,
+                    jsonReportes.getJSONObject(i).toString(),
                     getStaticMapUrl(String.valueOf(latitud), String.valueOf(longitud)));
                     //"https://maps.googleapis.com/maps/api/staticmap?center=19.453094,-99.147437&zoom=15&size=400x200&&markers=color:RED%7Clabel:P%7C19.453094,-99.147437&maptype=roadmap&key=AIzaSyAZNyEJvYRGwgeo0udMCeajMgeZXC1mAwg");
 

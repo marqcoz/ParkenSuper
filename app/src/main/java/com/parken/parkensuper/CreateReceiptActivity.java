@@ -141,6 +141,8 @@ public class CreateReceiptActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                showProgress(true);
+
                 if(datosCorrectos()){
 
                     switch (origin){
@@ -376,9 +378,10 @@ public class CreateReceiptActivity extends AppCompatActivity {
                         public void onResponse(JSONObject response) {
 
                             try {
+
                                 if(response.getString("success").equals("1")){
                                     //Log.d("LoginActivity", response.getString("success"));
-                                    showProgress(false);
+
                                     //Sancionar
                                     crearSancion(monto,"0",
                                             response.getString("idVehiculo"),
@@ -389,7 +392,7 @@ public class CreateReceiptActivity extends AppCompatActivity {
                                     //dialogNewCarSuccess(response.getString("idVehiculo")).show();
 
                                 }else{
-
+                                    showProgress(false);
 
                                     if(!response.getString("success").equals("0")){
                                         obtenerIdVehiculoYSancionar(placa);

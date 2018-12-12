@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.parken.parkensuper.ParkenActivity.NOTIFICATION_ALMOST_FINISH_PS;
@@ -111,12 +112,14 @@ public class Notificacion extends Notification {
 
                 pendingIntent.cancel();
 
+
                 intent = new Intent(c, ParkenActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra("Activity", ParkenActivity.NOTIFICATIONS)
                         .putExtra("ActivityStatus", id)
-                        .putExtra("Actions", 1);
-                pendingIntent = PendingIntent.getActivity(c, id+1, intent,PendingIntent.FLAG_ONE_SHOT);
+                        .putExtra("Actions", 1)
+                        .putExtra("data", data);
+                pendingIntent = PendingIntent.getActivity(c, id+1, intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
                 notificacion
@@ -452,6 +455,7 @@ public class Notificacion extends Notification {
         String ns = NOTIFICATION_SERVICE;
         NotificationManager nMgr = (NotificationManager) c.getSystemService(ns);
         nMgr.cancel(NotificacionId);
+        Log.e("Cerrar notificación", String.valueOf(NotificacionId));
     }
 
     public static void cerrarNotiSistema(Context c){

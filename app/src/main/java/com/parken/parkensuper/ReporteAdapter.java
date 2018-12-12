@@ -74,6 +74,14 @@ public class ReporteAdapter extends RecyclerView.Adapter<ReporteAdapter.ViewHold
                 holder.line.setVisibility(View.VISIBLE);
             }
 
+            if (est.equals("ASIGNADO")){
+                holder.statusIcon.setImageResource(R.drawable.ic_alert);
+                holder.estatus.setTextColor(Color.argb(255,52,73,94));
+                holder.pago.setVisibility(View.VISIBLE);
+                holder.line.setVisibility(View.VISIBLE);
+            }
+
+
         }
 
         @Override

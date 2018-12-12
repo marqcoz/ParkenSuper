@@ -149,7 +149,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     private static final String VIEW_DRIVER_PAYING = "sesionParkenPagando";
     private static final float RADIUS_GEOFENCE_PARKEN_SPACE_BOOKED = 500f;
     private static final float RADIUS_GEOFENCE_PARKEN_SESSION = 500f;
-    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 100f;
+    private static final float RADIUS_GEOFENCE_ON_THE_WAY = 5000f;
     public static final String METHOD_PARKEN_SPACE_BOOKED = "GEOFENCE_IN";
     public static final String METHOD_PARKEN_SPACE_CHECK = "GEOFENCE_OUT";
     public static final int LOAD = 100;
@@ -936,7 +936,12 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             infoLay.setVisibility(View.GONE);
             notitas.setVisibility(View.GONE);
 
+            //Cerramos la notificacion de nuevo reporte
+            Notificacion.cerrar(getApplicationContext(), NOTIFICATION_NEW_REPORT);
+
         }
+
+        mMap.clear();
 
         //Centramos el mapa
         centrarMapa();
@@ -954,11 +959,11 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
             //Si aun no nos conectamos con el server
             if (!serverConnected) {
                 //intemos otra vez la conexión con el servidor
-                //try {
-                  //  verificarSupervisor();
-                //} catch (JSONException e) {
-                  //  e.printStackTrace();
-                //}
+                try {
+                    verificarSupervisor();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //Si se logra conectar al server, ya no entra aqui
             }else{
 
@@ -1210,6 +1215,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
     }
 
     public void showBarServerNotConnected(){
+        onParken(LOAD);
         if(snackbarNoServer == null)
             snackbarNoServer = Snackbar.make(this.getWindow().getDecorView().findViewById(android.R.id.content), "Error de conexión con el servidor", Snackbar.LENGTH_INDEFINITE);
 
@@ -2162,7 +2168,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
                                     //Mostrar alerta en el mapa
                                     //Lanzar notificación
-                                    Notificacion.lanzar(getApplicationContext(), NOTIFICATION_NEW_REPORT, "MAX", "");
+                                    //Notificacion.lanzar(getApplicationContext(), NOTIFICATION_NEW_REPORT, "MAX", "");
                                     //Abrir ReporteActivity
                                     //startActivity(new Intent(ParkenActivity.this, ReporteActivity.class));
                                     onReport(RELOAD, obtenerReporteAsignado(response.getString("reportes")));
@@ -2344,6 +2350,7 @@ public class ParkenActivity extends AppCompatActivity implements OnMapReadyCallb
 
     public void atenderReporte(){
         //Abrir ReporteActivity con el idEspacioparken fijo
+        clearGeofence(GEOFENCE_ON_REPORT);
         Intent reportActivity = new Intent(ParkenActivity.this, ModifyParkenSpaceActivity.class);
         reportActivity.putExtra("Activity", "ReportGeofence");
         reportActivity.putExtra("jsonReporte", reportParken);
